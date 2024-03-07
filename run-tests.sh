@@ -10,9 +10,7 @@
 
 export K6_BROWSER_HEADLESS=true 
 export K6_BROWSER_ARGS='no-sandbox' 
-if [ "$ACT" = "true" ]; then
-	export K6_BROWSER_EXECUTABLE_PATH=/usr/bin/google-chrome
-fi
+export K6_BROWSER_EXECUTABLE_PATH=/usr/bin/google-chrome
 
 # for test in $TESTS; do
 # 	# Disable thresholds because some threshold examples fail

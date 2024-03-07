@@ -43,20 +43,20 @@ jobs:
       run: |
         ./run-tests.sh
 
-    # - name: step 2 - run k6 load test
-    #   uses: grafana/k6-action@v0.2.0
-    #   with: 
-    #     filename: scripts/web2.js
+    - name: Run k6 load test
+      uses: grafana/k6-action@v0.2.0
+      with: 
+        filename: scripts/web2.js
 
     - run: ls & mkdir report & mv index.html report
     
-    - name: step 3 - upload artifact
+    - name: Upload artifact
       uses: actions/upload-artifact@v4
       with:
         name: relatorio de testes de performance Web
         path: report
 
-    - name: step 4 - publish report
+    - name: Publish report
       uses: peaceiris/actions-gh-pages@v3
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
