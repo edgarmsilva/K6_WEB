@@ -13,11 +13,36 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
+
+
+  # cannot use the k6 docker image because it does not allow executing shell commands
+    - name: Install k6 in Ubuntu
+      if: steps.cache-k6.outputs.cache-hit != 'true'
+      run: |  
+        sudo gpg -k
+        sudo gpg --no-default-keyring --keyring /usr/share/keyrings/k6-archive-keyring.gpg --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys C5AD17C747E3415A3642D57D77C6C491D6AC1D69
+        echo "deb [signed-by=/usr/share/keyrings/k6-archive-keyring.gpg] https://dl.k6.io/deb stable main" | sudo tee /etc/apt/sources.list.d/k6.list
+        sudo apt-get update
+        sudo apt-get install k6
     
-    - name: step 2 - run k6 load test
-      uses: grafana/k6-action@v0.2.0
-      with: 
-        filename: scripts/web2.js
+    # Install Chrome (or chromium) when using ACT, as the default ACT image does not include it.
+    # Note that running the browser in a container like Snap or Flatpak is not supported.
+    - name: Install chrome
+      if: ${{ env.ACT }}
+      run: |  
+        wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
+        sudo sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list'
+        sudo apt update && sudo apt install -y google-chrome-stable
+  
+    - name: Run k6 browser tests
+      run: ./run-tests.sh -t **/scripts/*.js
+      env:
+        ACT: ${{ env.ACT }}
+
+    # - name: step 2 - run k6 load test
+    #   uses: grafana/k6-action@v0.2.0
+    #   with: 
+    #     filename: scripts/web2.js
 
     - run: ls & mkdir report & mv index.html report
     

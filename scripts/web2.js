@@ -10,6 +10,8 @@ https://dev.to/marlo2222/entendendo-as-metricas-do-k6-parte-3-m1g
     browser_web_vital_fid: mede o tempo entre a primeira interação do usuário com uma página, até o momento em que o navegador consegue começar a processar manipuladores de eventos em resposta a essa interação.
 */
 
+
+
 export const options = {
     scenarios: {
         ui: {
