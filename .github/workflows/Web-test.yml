@@ -1,0 +1,35 @@
+name: K6 Web Test
+on:
+    push:
+      branches: [ "main" ]
+    pull_request:
+      branches: [ "main" ]
+
+permissions:
+  contents: write
+
+jobs:
+  Test:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: step 2 - run k6 load test
+      uses: grafana/k6-action@v0.2.0
+      with: 
+        filename: scripts/web2.js
+
+    - run: ls & mkdir report & mv index.html report
+    
+    - name: step 3 - upload artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: relatorio de testes de performance Web
+        path: report
+
+    - name: step 4 - publish report
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_branch: gh-pages
+        publish_dir: report

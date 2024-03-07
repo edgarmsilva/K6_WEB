@@ -1,5 +1,6 @@
 import { browser } from 'k6/experimental/browser';
 import { sleep, check } from 'k6';
+import { htmlReport } from "https://raw.githubusercontent.com/benc-uk/k6-reporter/main/dist/bundle.js";
 
 /*
 MÉTRICAS IMPORTANTES:
@@ -27,7 +28,7 @@ export const options = {
         browser_web_vital_fid: ["p(75) <= 100"],
         browser_web_vital_lcp: ["p(75) <= 2500"]
     },
-    summaryTrendStats: ["min", "med", "avg", "max", "p(75)","p(95)","p(99)"]
+    summaryTrendStats: ["min", "med", "avg", "max", "p(75)", "p(95)", "p(99)"]
 };
 
 export default async function () {
@@ -54,4 +55,11 @@ export default async function () {
     } finally {
         page.close();
     }
+}
+
+
+export function handleSummary(data) {
+    return {
+        "index.html": htmlReport(data),
+    };
 }
