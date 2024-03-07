@@ -37,9 +37,8 @@ jobs:
     #   run: ./run-tests.sh -t **/scripts/*.js
 
     - name: Test bash-wrapper
-      shell: bash-wrapper {0}
       run: |
-        bash run-tests.sh -t **/scripts/*.js
+        ./run-tests.sh
 
     # - name: step 2 - run k6 load test
     #   uses: grafana/k6-action@v0.2.0
