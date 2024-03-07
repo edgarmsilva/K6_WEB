@@ -33,7 +33,7 @@ jobs:
     - name: Make the script files executable
       run: chmod +x run-tests.sh
 
-    - name: Test K6 Web test Run Using Script
+    - name: K6 Web test using Script
       run: |
         ./run-tests.sh
 
