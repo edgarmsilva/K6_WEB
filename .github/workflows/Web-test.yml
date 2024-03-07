@@ -14,7 +14,6 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
-
   # cannot use the k6 docker image because it does not allow executing shell commands
     - name: Install k6 in Ubuntu
       if: steps.cache-k6.outputs.cache-hit != 'true'
@@ -25,16 +24,11 @@ jobs:
         sudo apt-get update
         sudo apt-get install k6
     
-    # Install Chrome (or chromium) when using ACT, as the default ACT image does not include it.
-    # Note that running the browser in a container like Snap or Flatpak is not supported.
     - name: Install chrome
       run: |  
         wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
         sudo sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list'
         sudo apt update && sudo apt install -y google-chrome-stable
-  
-    # - name: Run k6 browser tests
-    #   run: ./run-tests.sh -t **/scripts/*.js
 
     - name: Make the script files executable
       run: chmod +x run-tests.sh
@@ -42,11 +36,6 @@ jobs:
     - name: Test bash-wrapper
       run: |
         ./run-tests.sh
-
-    - name: Run k6 load test
-      uses: grafana/k6-action@v0.2.0
-      with: 
-        filename: scripts/web2.js
 
     - run: ls & mkdir report & mv index.html report
     
