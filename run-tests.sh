@@ -8,10 +8,6 @@
 #   esac
 # done
 
-
-BASE_URL="${BASE_URL:=http://localhost:3333}"
-TESTS="${TESTS:=**/scripts/*.js}"
-
 export K6_BROWSER_HEADLESS=true 
 export K6_BROWSER_ARGS='no-sandbox' 
 if [ "$ACT" = "true" ]; then
