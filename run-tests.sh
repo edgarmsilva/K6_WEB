@@ -8,6 +8,7 @@
 #   esac
 # done
 
+
 BASE_URL="${BASE_URL:=http://localhost:3333}"
 TESTS="${TESTS:=**/scripts/*.js}"
 
