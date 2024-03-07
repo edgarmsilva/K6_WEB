@@ -36,6 +36,9 @@ jobs:
     # - name: Run k6 browser tests
     #   run: ./run-tests.sh -t **/scripts/*.js
 
+    - name: Make the script files executable
+      run: chmod +x run-tests.sh
+
     - name: Test bash-wrapper
       run: |
         ./run-tests.sh
